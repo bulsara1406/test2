@@ -4,19 +4,21 @@ const Register = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    phone: "",
+    membershipId: "",
+    book: "",
+    issueDate: ""
   });
 
   const [users, setUsers] = useState([]);
   const [editId, setEditId] = useState(null);
 
-  // Load users from localStorage
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     setUsers(storedUsers);
   }, []);
 
-  // Save users to localStorage
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
@@ -29,14 +31,12 @@ const Register = () => {
     e.preventDefault();
 
     if (editId) {
-      // UPDATE
       const updatedUsers = users.map((user) =>
         user.id === editId ? { ...user, ...form } : user
       );
       setUsers(updatedUsers);
       setEditId(null);
     } else {
-      // CREATE
       const newUser = {
         id: Date.now(),
         ...form
@@ -44,95 +44,145 @@ const Register = () => {
       setUsers([...users, newUser]);
     }
 
-    setForm({ name: "", email: "", password: "" });
+    setForm({
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      membershipId: "",
+      book: "",
+      issueDate: ""
+    });
   };
 
   const handleEdit = (user) => {
-    setForm({
-      name: user.name,
-      email: user.email,
-      password: user.password
-    });
+    setForm(user);
     setEditId(user.id);
   };
 
   const handleDelete = (id) => {
-    const filteredUsers = users.filter((user) => user.id !== id);
-    setUsers(filteredUsers);
+    setUsers(users.filter((user) => user.id !== id));
   };
 
   return (
-    <div className="container">
-      <h2>{editId ? "Edit User" : "Register Form"}</h2>
+    <>
+      {/* HEADER */}
+      <div className="header">
+        📚 Library Management System
+      </div>
 
-      <form onSubmit={handleSubmit} className="form">
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
+      <p className="sub-header">Manage Members & Book Issues</p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+      <div className="container">
+        <h2>{editId ? "Edit Member" : "Register Member"}</h2>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit} className="form form-grid">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
 
-        <button type="submit">
-          {editId ? "Update User" : "Add User"}
-        </button>
-      </form>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
 
-      <h3>User List</h3>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={form.phone}
+            onChange={handleChange}
+          />
 
-        <tbody>
-          {users.length > 0 ? (
-            users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.password}</td>
-                <td>
-                  <button onClick={() => handleEdit(user)}>Edit</button>
-                  <button onClick={() => handleDelete(user.id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
+          <input
+            type="text"
+            name="membershipId"
+            placeholder="Membership ID"
+            value={form.membershipId}
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            name="book"
+            placeholder="Book Issued"
+            value={form.book}
+            onChange={handleChange}
+          />
+
+          <input
+            type="date"
+            name="issueDate"
+            value={form.issueDate}
+            onChange={handleChange}
+          />
+
+          <button type="submit" className="full-width">
+            {editId ? "Update Member" : "Add Member"}
+          </button>
+        </form>
+
+        <h3>Member Records</h3>
+        <div className="table-wrapper">
+        <table>
+          <thead>
             <tr>
-              <td colSpan="4">No users found</td>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Membership</th>
+              <th>Book</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.membershipId}</td>
+                  <td>{user.book}</td>
+                  <td>{user.issueDate}</td>
+                  <td>
+                    <button onClick={() => handleEdit(user)}>Edit</button>
+                    <button onClick={() => handleDelete(user.id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">No records found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </>
   );
 };
 
