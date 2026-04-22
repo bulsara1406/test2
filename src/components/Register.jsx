@@ -8,7 +8,9 @@ const Register = () => {
     phone: "",
     membershipId: "",
     book: "",
-    issueDate: ""
+    issueDate: "",
+    gender:"",
+    country:""
   });
 
   const [users, setUsers] = useState([]);
@@ -51,7 +53,9 @@ const Register = () => {
       phone: "",
       membershipId: "",
       book: "",
-      issueDate: ""
+      issueDate: "",
+      gender:"",
+      country:""
     });
   };
 
@@ -134,6 +138,32 @@ const Register = () => {
             value={form.issueDate}
             onChange={handleChange}
           />
+           <label>Gender:</label>
+          <div className="radio-group">
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                onChange={handleChange}
+              /> Male
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                onChange={handleChange}
+              /> Female
+            </label>
+          </div>
+          <select name="country" onChange={handleChange}>
+            <option value="">Select Country</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+          </select>
 
           <button type="submit" className="full-width">
             {editId ? "Update Member" : "Add Member"}
@@ -151,6 +181,8 @@ const Register = () => {
               <th>Membership</th>
               <th>Book</th>
               <th>Date</th>
+              <th>Gender</th>
+              <th>Country</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -165,6 +197,8 @@ const Register = () => {
                   <td>{user.membershipId}</td>
                   <td>{user.book}</td>
                   <td>{user.issueDate}</td>
+                  <td>{user.gender}</td>
+                    <td>{user.country}</td>
                   <td>
                     <button onClick={() => handleEdit(user)}>Edit</button>
                     <button onClick={() => handleDelete(user.id)}>
