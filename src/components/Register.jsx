@@ -4,13 +4,15 @@ const Register = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: "",
+    
     phone: "",
-    membershipId: "",
-    book: "",
-    issueDate: "",
+    
+    
+    disese:"",
+
     gender:"",
-    country:""
+    city:"",
+    date:""
   });
 
   const [users, setUsers] = useState([]);
@@ -49,13 +51,13 @@ const Register = () => {
     setForm({
       name: "",
       email: "",
-      password: "",
+    
       phone: "",
-      membershipId: "",
-      book: "",
-      issueDate: "",
+      disese: "",
+      
       gender:"",
-      country:""
+      city:"",
+      date:""
     });
   };
 
@@ -70,15 +72,15 @@ const Register = () => {
 
   return (
     <>
-      {/* HEADER */}
+      
       <div className="header">
-        📚 Library Management System
+       patient Registartion
       </div>
 
-      <p className="sub-header">Manage Members & Book Issues</p>
+      <p className="sub-header">Manage Patient</p>
 
       <div className="container">
-        <h2>{editId ? "Edit Member" : "Register Member"}</h2>
+        <h2>{editId ? "Edit Patient" : "Register Patient"}</h2>
 
         <form onSubmit={handleSubmit} className="form form-grid">
           <input
@@ -100,44 +102,23 @@ const Register = () => {
           />
 
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={form.phone}
             onChange={handleChange}
             required
           />
 
           <input
             type="text"
-            name="phone"
-            placeholder="Phone"
-            value={form.phone}
+            name="disese"
+            placeholder="Enter Disese"
+            value={form.disese}
             onChange={handleChange}
           />
 
-          <input
-            type="text"
-            name="membershipId"
-            placeholder="Membership ID"
-            value={form.membershipId}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="book"
-            placeholder="Book Issued"
-            value={form.book}
-            onChange={handleChange}
-          />
-
-          <input
-            type="date"
-            name="issueDate"
-            value={form.issueDate}
-            onChange={handleChange}
-          />
+          
            <label>Gender:</label>
           <div className="radio-group">
             <label>
@@ -158,15 +139,22 @@ const Register = () => {
               /> Female
             </label>
           </div>
-          <select name="country" onChange={handleChange}>
+          <select name="city" onChange={handleChange}>
             <option value="">Select Country</option>
-            <option value="India">India</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
+            <option value="valsad">valsad</option>
+            <option value="navsari">navsari</option>
+            <option value="vapi">vapi</option>
           </select>
 
+          <input
+            type="date"
+            name="date"
+            value={form.date}
+            onChange={handleChange}
+            />
+
           <button type="submit" className="full-width">
-            {editId ? "Update Member" : "Add Member"}
+            {editId ? "Update patient" : "Add patient"}
           </button>
         </form>
 
@@ -178,11 +166,11 @@ const Register = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Membership</th>
-              <th>Book</th>
-              <th>Date</th>
+              <th>disese</th>
+
               <th>Gender</th>
-              <th>Country</th>
+              <th>City</th>
+              <th>date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -194,11 +182,10 @@ const Register = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
-                  <td>{user.membershipId}</td>
-                  <td>{user.book}</td>
-                  <td>{user.issueDate}</td>
+                  <td>{user.disese}</td>
                   <td>{user.gender}</td>
-                    <td>{user.country}</td>
+                    <td>{user.city}</td>
+                    <td>{user.date}</td>
                   <td>
                     <button onClick={() => handleEdit(user)}>Edit</button>
                     <button onClick={() => handleDelete(user.id)}>
